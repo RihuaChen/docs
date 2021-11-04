@@ -41,8 +41,12 @@ const SubmitDemo = () => {
   const [code, setCode] = useState({});
   const form = useMemo(() => createForm({}), []);
   const submit = async () => {
-    const values: object = await form.submit();
-    setCode(values);
+    try {
+      const values: object = await form.submit();
+      setCode(values);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <>

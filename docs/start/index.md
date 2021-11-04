@@ -1,5 +1,7 @@
 ---
-title: '认识 Formily - V2 版本'
+nav:
+  title: Getting Started
+  order: 1
 ---
 
 # 认识 Formily - V2 版本
@@ -15,4 +17,4 @@ title: '认识 Formily - V2 版本'
 ## 唯一劣势
 
 **学习成本高**
-<code src="./index.tsx"></code>
+<code src="./hello.tsx"></code>
