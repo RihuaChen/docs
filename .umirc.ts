@@ -31,8 +31,16 @@ export default defineConfig({
     ],
     '/linkage': [
       {
-        title: '联动',
-        path: '/linkage',
+        title: '主动联动',
+        children: [
+          { title: '一对一联动', path: '/linkage/positive/one-to-one' },
+        ],
+      },
+      {
+        title: '被动联动',
+        children: [
+          { title: '一对一联动', path: '/linkage/negative/one-to-one' },
+        ],
       },
     ],
   },
