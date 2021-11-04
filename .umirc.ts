@@ -2,6 +2,8 @@ import { defineConfig } from 'dumi';
 
 export default defineConfig({
   title: 'Formily - V2 Docs',
+  base: '/docs/',
+  publicPath: '/docs/',
   mode: 'site',
   mfsu: {},
   // more config: https://d.umijs.org/config
