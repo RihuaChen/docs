@@ -6,9 +6,8 @@ import { Form, FormItem, Input, Select } from '@formily/antd';
 const form = createForm({
   effects() {
     onFieldValueChange('selectA', (field) => {
-      form.setFieldState('inputB', (state) => {
-        //对于初始联动，如果字段找不到，setFieldState会将更新推入更新队列，直到字段出现再执行操作
-        state.visible = field.value === '1';
+      field.setComponentProps({
+        size: field.value,
       });
     });
   },
@@ -31,23 +30,14 @@ const schema = {
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {
-        placeholder: 'Please Input',
+        placeholder: 'Select to Change Size',
+        allowClear: true,
       },
       enum: [
-        { label: '1', value: '1' },
-        { label: '2', value: '2' },
-        { label: '3', value: '3' },
+        { label: 'large', value: 'large' },
+        { label: 'middle', value: 'middle' },
+        { label: 'small', value: 'small' },
       ],
-    },
-    inputB: {
-      title: 'B',
-      type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
-      'x-visible': false,
-      'x-component-props': {
-        placeholder: 'Please Input',
-      },
     },
   },
 };
