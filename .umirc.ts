@@ -1,9 +1,13 @@
 import { defineConfig } from 'dumi';
+import path from 'path';
 
 export default defineConfig({
   title: 'Formily - V2 Docs',
   base: '/docs/',
   publicPath: '/docs/',
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+  },
   mode: 'site',
   // mfsu: {},
   // more config: https://d.umijs.org/config
@@ -20,6 +24,7 @@ export default defineConfig({
         children: [
           { title: '提交表单', path: '/scene/submit' },
           { title: '校验', path: '/scene/validator' },
+          { title: '弹窗', path: '/scene/modal' },
         ],
       },
     ],

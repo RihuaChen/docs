@@ -1,4 +1,4 @@
-import DemoTemplate from '../../components/DemoTemplate';
+import DemoTemplate from '@/components/DemoTemplate';
 
 const asyncValidateFunc = (value) => {
   return new Promise((resolve) => {

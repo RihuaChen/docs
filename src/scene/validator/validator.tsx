@@ -1,4 +1,4 @@
-import DemoTemplate from '../../components/DemoTemplate';
+import DemoTemplate from '@/components/DemoTemplate';
 
 const schema = {
   type: 'object',

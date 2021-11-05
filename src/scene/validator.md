@@ -10,7 +10,7 @@
 
 ---
 
-<code src="./source/validator/validator.tsx"></code>
+<code src="./validator/validator.tsx"></code>
 
 ## 全局自定义校验规则案例
 
@@ -47,8 +47,8 @@ registerValidateRules({
 }
 ```
 
-<code src="./source/validator/global-style.tsx"></code>
+<code src="./validator/global-style.tsx"></code>
 
 ## 异步校验
 
-<code src="./source/validator/async-validate.tsx"></code>
+<code src="./validator/async-validate.tsx"></code>
