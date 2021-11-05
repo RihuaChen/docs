@@ -1,23 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
-
-const form = createForm({
-  effects() {
-    onFieldValueChange('paymentMethod', (field) => {
-      form.setFieldState('CREDIT_CARD_INFO', (state) => {
-        state.visible = field.value === '1';
-      });
-      form.setFieldState('DEBIT_CARD_INFO', (state) => {
-        state.visible = field.value === '2';
-      });
-      form.setFieldState('LOAN_CARD_INFO', (state) => {
-        state.visible = field.value === '3';
-      });
-    });
-  },
-});
 
 const SchemaField = createSchemaField({
   components: {
@@ -119,15 +103,36 @@ const schema = {
   },
 };
 
-export default () => (
-  <Form form={form}>
-    <SchemaField schema={schema} />
-    <FormConsumer>
-      {() => (
-        <code>
-          <pre>{JSON.stringify(form.values, null, 2)}</pre>
-        </code>
-      )}
-    </FormConsumer>
-  </Form>
-);
+export default () => {
+  const form = useMemo(
+    () =>
+      createForm({
+        effects() {
+          onFieldValueChange('paymentMethod', (field) => {
+            form.setFieldState('CREDIT_CARD_INFO', (state) => {
+              state.visible = field.value === '1';
+            });
+            form.setFieldState('DEBIT_CARD_INFO', (state) => {
+              state.visible = field.value === '2';
+            });
+            form.setFieldState('LOAN_CARD_INFO', (state) => {
+              state.visible = field.value === '3';
+            });
+          });
+        },
+      }),
+    [],
+  );
+  return (
+    <Form form={form}>
+      <SchemaField schema={schema} />
+      <FormConsumer>
+        {() => (
+          <code>
+            <pre>{JSON.stringify(form.values, null, 2)}</pre>
+          </code>
+        )}
+      </FormConsumer>
+    </Form>
+  );
+};

@@ -5,7 +5,7 @@ export default defineConfig({
   base: '/docs/',
   publicPath: '/docs/',
   mode: 'site',
-  mfsu: {},
+  // mfsu: {},
   // more config: https://d.umijs.org/config
   menus: {
     '/start': [

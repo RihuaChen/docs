@@ -1,17 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
-
-const form = createForm({
-  effects() {
-    onFieldValueChange('selectA', (field) => {
-      field.setComponentProps({
-        size: field.value,
-      });
-    });
-  },
-});
 
 const SchemaField = createSchemaField({
   components: {
@@ -42,15 +32,30 @@ const schema = {
   },
 };
 
-export default () => (
-  <Form form={form}>
-    <SchemaField schema={schema} />
-    <FormConsumer>
-      {() => (
-        <code>
-          <pre>{JSON.stringify(form.values, null, 2)}</pre>
-        </code>
-      )}
-    </FormConsumer>
-  </Form>
-);
+export default () => {
+  const form = useMemo(
+    () =>
+      createForm({
+        effects() {
+          onFieldValueChange('selectA', (field) => {
+            field.setComponentProps({
+              size: field.value,
+            });
+          });
+        },
+      }),
+    [],
+  );
+  return (
+    <Form form={form}>
+      <SchemaField schema={schema} />
+      <FormConsumer>
+        {() => (
+          <code>
+            <pre>{JSON.stringify(form.values, null, 2)}</pre>
+          </code>
+        )}
+      </FormConsumer>
+    </Form>
+  );
+};
