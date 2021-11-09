@@ -59,6 +59,10 @@ export default defineConfig({
           { title: '自身联动', path: '/linkage/negative/self' },
         ],
       },
+      {
+        title: '路径系统',
+        children: [{ title: '常用路径', path: '/linkage/path/main' }],
+      },
     ],
   },
 });

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import { createForm, onFieldReact, onFieldValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 
@@ -46,14 +46,17 @@ export default () => {
     () =>
       createForm({
         effects() {
-          onFieldValueChange('selectA', (field) => {
-            field.loading = true;
-            setTimeout(() => {
-              form.setFieldState('inputB', (state) => {
-                state.visible = field.value === '1';
-                field.loading = false;
-              });
-            }, 1000);
+          onFieldReact('inputB', (field) => {
+            const select = field.query('selectA').take();
+            if (!select) return;
+            const selectValue = select.value;
+            select.loading = true;
+            if (selectValue) {
+              setTimeout(() => {
+                select.loading = false;
+                field.visible = selectValue === '1';
+              }, 1000);
+            }
           });
         },
       }),

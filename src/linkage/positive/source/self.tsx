@@ -47,15 +47,19 @@ export default () => {
     [],
   );
   return (
-    <Form form={form}>
-      <SchemaField schema={schema} />
-      <FormConsumer>
-        {() => (
-          <code>
-            <pre>{JSON.stringify(form.values, null, 2)}</pre>
-          </code>
-        )}
-      </FormConsumer>
-    </Form>
+    <>
+      <h2>自身联动Demo</h2>
+      <h3 style={{ height: '48px' }}>选择不同size改变自身尺寸</h3>
+      <Form form={form}>
+        <SchemaField schema={schema} />
+        <FormConsumer>
+          {() => (
+            <code>
+              <pre>{JSON.stringify(form.values, null, 2)}</pre>
+            </code>
+          )}
+        </FormConsumer>
+      </Form>
+    </>
   );
 };

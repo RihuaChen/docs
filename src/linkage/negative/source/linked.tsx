@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import { createForm, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 
@@ -28,15 +28,35 @@ const schema = {
         { label: '3', value: '3' },
       ],
     },
-    inputB: {
+    selectB: {
       title: 'B',
       type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
       'x-visible': false,
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
       'x-component-props': {
-        placeholder: 'Please Input',
+        placeholder: 'Please Select 1',
       },
+      enum: [
+        { label: '1', value: '1' },
+        { label: '2', value: '2' },
+        { label: '3', value: '3' },
+      ],
+    },
+    selectC: {
+      title: 'C',
+      type: 'string',
+      'x-visible': false,
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
+      'x-component-props': {
+        placeholder: 'Please Select',
+      },
+      enum: [
+        { label: '1', value: '1' },
+        { label: '2', value: '2' },
+        { label: '3', value: '3' },
+      ],
     },
   },
 };
@@ -46,14 +66,11 @@ export default () => {
     () =>
       createForm({
         effects() {
-          onFieldValueChange('selectA', (field) => {
-            field.loading = true;
-            setTimeout(() => {
-              form.setFieldState('inputB', (state) => {
-                state.visible = field.value === '1';
-                field.loading = false;
-              });
-            }, 1000);
+          onFieldReact('selectB', (field) => {
+            field.visible = field.query('selectA').value() === '1';
+          });
+          onFieldReact('selectC', (field) => {
+            field.visible = field.query('selectB').value() === '1';
           });
         },
       }),
@@ -61,8 +78,8 @@ export default () => {
   );
   return (
     <>
-      <h2>异步联动Demo</h2>
-      <h3>A选择1, 过一秒后显示B</h3>
+      <h2>链式联动Demo</h2>
+      <div style={{ height: '48px' }}> A选择1显示B, B选择1显示C</div>
       <Form form={form}>
         <SchemaField schema={schema} />
         <FormConsumer>

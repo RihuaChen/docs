@@ -1,20 +1,18 @@
 import React from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import { createForm, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 
 const form = createForm({
   effects() {
-    onFieldValueChange('paymentMethod', (field) => {
-      form.setFieldState('*(creditCardNO,validateNO)', (state) => {
-        state.visible = field.value === '1';
-      });
-      form.setFieldState('*(debitCardNO,debitCardPhoneNO)', (state) => {
-        state.visible = field.value === '2';
-      });
-      form.setFieldState('*(loanCardNO,loanCardPhoneNO)', (state) => {
-        state.visible = field.value === '3';
-      });
+    onFieldReact('*(creditCardNO,validateNO)', (field) => {
+      field.visible = field.query('paymentMethod').value() === '1';
+    });
+    onFieldReact('*(debitCardNO,debitCardPhoneNO)', (field) => {
+      field.visible = field.query('paymentMethod').value() === '1';
+    });
+    onFieldReact('*(loanCardNO,loanCardPhoneNO)', (field) => {
+      field.visible = field.query('paymentMethod').value() === '1';
     });
   },
 });

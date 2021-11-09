@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import { createForm, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 
@@ -108,16 +108,14 @@ export default () => {
     () =>
       createForm({
         effects() {
-          onFieldValueChange('paymentMethod', (field) => {
-            form.setFieldState('CREDIT_CARD_INFO', (state) => {
-              state.visible = field.value === '1';
-            });
-            form.setFieldState('DEBIT_CARD_INFO', (state) => {
-              state.visible = field.value === '2';
-            });
-            form.setFieldState('LOAN_CARD_INFO', (state) => {
-              state.visible = field.value === '3';
-            });
+          onFieldReact('CREDIT_CARD_INFO', (field) => {
+            field.visible = field.query('paymentMethod').value() === '1';
+          });
+          onFieldReact('DEBIT_CARD_INFO', (field) => {
+            field.visible = field.query('paymentMethod').value() === '2';
+          });
+          onFieldReact('LOAN_CARD_INFO', (field) => {
+            field.visible = field.query('paymentMethod').value() === '3';
           });
         },
       }),

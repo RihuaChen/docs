@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import { createForm, onFieldReact, onFieldValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 
@@ -20,23 +20,14 @@ const schema = {
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {
-        placeholder: 'Please Select 1',
+        placeholder: 'Select to Change Size',
+        allowClear: true,
       },
       enum: [
-        { label: '1', value: '1' },
-        { label: '2', value: '2' },
-        { label: '3', value: '3' },
+        { label: 'large', value: 'large' },
+        { label: 'middle', value: 'middle' },
+        { label: 'small', value: 'small' },
       ],
-    },
-    inputB: {
-      title: 'B',
-      type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
-      'x-visible': false,
-      'x-component-props': {
-        placeholder: 'Please Input',
-      },
     },
   },
 };
@@ -46,14 +37,10 @@ export default () => {
     () =>
       createForm({
         effects() {
-          onFieldValueChange('selectA', (field) => {
-            field.loading = true;
-            setTimeout(() => {
-              form.setFieldState('inputB', (state) => {
-                state.visible = field.value === '1';
-                field.loading = false;
-              });
-            }, 1000);
+          onFieldReact('selectA', (field) => {
+            field.setComponentProps({
+              size: field.value,
+            });
           });
         },
       }),
@@ -61,8 +48,8 @@ export default () => {
   );
   return (
     <>
-      <h2>异步联动Demo</h2>
-      <h3>A选择1, 过一秒后显示B</h3>
+      <h2>自身联动Demo</h2>
+      <h3 style={{ height: '48px' }}>选择不同size改变自身尺寸</h3>
       <Form form={form}>
         <SchemaField schema={schema} />
         <FormConsumer>

@@ -1,22 +1,18 @@
-# 主动联动
+# 被动联动
 
-1. 联动表单处理中是必不可少的章节，主动联动是指 选项 `A`选择了`第一项`，然后显示 `B` 选项，
+1. 被动联动是指某个表单项依赖于其他表单项，业务逻辑写到被触发的表单项上，最适合多对一的场景
 
-   - 把逻辑写到 A 字段是就是`主动联动`
-   - 与之相反，逻辑如果写到 B 上边就是`被动联动`
+2. 被动联动更倾向于响应式的写法，类似于监听器的写法
 
-2. 一对一联动是最简单的场景，我们看下这个场景
+3. 一对一联动是最简单的场景，我们看下被动联动，与主动最大的区别的是核心 API 变成 `onFieldReact`
 
 ```js
-import { onFieldValueChange } from '@formily/core';
+import { onFieldReact } from '@formily/core';
 
-// 主动联动方法onFieldValueChange，'selectA'是路径，后边我们讲到路径系统
+// 被动联动方法onFieldReact，'selectA'是路径，后边我们会讲到路径系统
 
-onFieldValueChange('selectA', (field) => {
-  form.setFieldState('inputB', (state) => {
-    //对于初始联动，如果字段找不到，setFieldState会将更新推入更新队列，直到字段出现再执行操作
-    state.visible = field.value === '1';
-  });
+onFieldReact('inputB', (field) => {
+  field.visible = field.query('selectA').value() === '1';
 });
 ```
 

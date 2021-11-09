@@ -1,18 +1,7 @@
-import React from 'react';
-import { createForm, onFieldValueChange } from '@formily/core';
+import React, { useMemo } from 'react';
+import { createForm, onFieldReact, onFieldValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import { Form, FormItem, Input, Select } from '@formily/antd';
-
-const form = createForm({
-  effects() {
-    onFieldValueChange('selectA', (field) => {
-      form.setFieldState('inputB', (state) => {
-        //对于初始联动，如果字段找不到，setFieldState会将更新推入更新队列，直到字段出现再执行操作
-        state.visible = field.value === '1';
-      });
-    });
-  },
-});
 
 const SchemaField = createSchemaField({
   components: {
@@ -52,15 +41,32 @@ const schema = {
   },
 };
 
-export default () => (
-  <Form form={form}>
-    <SchemaField schema={schema} />
-    <FormConsumer>
-      {() => (
-        <code>
-          <pre>{JSON.stringify(form.values, null, 2)}</pre>
-        </code>
-      )}
-    </FormConsumer>
-  </Form>
-);
+export default () => {
+  const form = useMemo(
+    () =>
+      createForm({
+        effects() {
+          onFieldReact('inputB', (field) => {
+            field.visible = field.query('selectA').value() === '1';
+          });
+        },
+      }),
+    [],
+  );
+  return (
+    <>
+      <h2>一对一联动Demo</h2>
+      <h3 style={{ height: '48px' }}>A选择1后显示B</h3>
+      <Form form={form}>
+        <SchemaField schema={schema} />
+        <FormConsumer>
+          {() => (
+            <code>
+              <pre>{JSON.stringify(form.values, null, 2)}</pre>
+            </code>
+          )}
+        </FormConsumer>
+      </Form>
+    </>
+  );
+};
