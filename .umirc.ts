@@ -25,6 +25,7 @@ export default defineConfig({
           { title: '提交表单', path: '/scene/submit' },
           { title: '校验', path: '/scene/validator' },
           { title: '弹窗', path: '/scene/modal' },
+          { title: '子表单', path: '/scene/child-form' },
         ],
       },
     ],
